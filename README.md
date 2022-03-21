@@ -1,5 +1,5 @@
 # terraform
-Terraform files for managing organization infrastructure
+Terraform files for managing organization infrastructures
 
 
 ## Adding Users To Teams
