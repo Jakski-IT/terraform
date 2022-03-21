@@ -38,7 +38,7 @@ variable "teams" {
       members = [
         "JakskiWork",
       ]
-    }
+    ]
 
     infrastructure = {
       name        = "Infrastructure"
