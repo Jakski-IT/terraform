@@ -17,6 +17,7 @@ provider "github" {
   owner = var.organization_name
   app_auth {}
 }
+# Test change
 
 # Using exclusively github_team_membership properly sends invitation, but
 # doesn't handle revoking organization membership. Someone can be a part of
