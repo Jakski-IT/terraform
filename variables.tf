@@ -77,7 +77,7 @@ variable "repositories" {
 
     test1 = {
       description = "Test repository"
-      teams       = ["distribution"]
+      teams = ["distribution"]
     }
   }
 }
