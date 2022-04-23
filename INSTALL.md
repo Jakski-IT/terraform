@@ -51,6 +51,37 @@ handy, when you want to allow some actions only to it. While there maybe some
 better way of getting node ID, you can use your newly created App to query
 itself for node ID. First generate [JWT token](https://docs.github.com/en/developers/apps/building-github-apps/authenticating-with-github-apps#authenticating-as-a-github-app)
 and then [query /app endpoint](https://docs.github.com/en/rest/reference/apps).
+See example script below:
+
+```ruby
+#!/usr/bin/env ruby
+
+require 'openssl'
+require 'net/http'
+require 'json'
+require 'jwt' # https://rubygems.org/gems/jwt
+
+# Private key must be placed in ./app.pem
+private_key = OpenSSL::PKey::RSA.new(File.read('app.pem'))
+# Generate the JWT
+payload = {
+  # issued at time, 60 seconds in the past to allow for clock drift
+  iat: Time.now.to_i - 60,
+  # JWT expiration time (10 minute maximum)
+  exp: Time.now.to_i + (10 * 60),
+  # GitHub App's identifier
+  iss: '176380'
+}
+jwt = JWT.encode(payload, private_key, 'RS256')
+uri = URI('https://api.github.com/app')
+req = Net::HTTP::Get.new(uri)
+req['Accept'] = 'application/vnd.github.v3+json'
+req['Authorization'] = 'Bearer ' + jwt
+res = Net::HTTP.start(uri.hostname, uri.port, :use_ssl => true) {|http|
+  http.request(req)
+}
+puts JSON.parse(res.body)['node_id']
+```
 
 # 3. Configuring state backend
 
