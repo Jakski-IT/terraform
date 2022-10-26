@@ -39,6 +39,7 @@ jobs:
         with:
           result-encoding: string
           script: |
+            console.log(context.issue);
             const { number } = context.issue;
             return `refs/pull/${context.issue.number}/merge`;
 
